@@ -1,0 +1,21 @@
+class CMyString{
+public:
+    CMyString(char *pData = nullptr);
+    CMyString(const CMyString &str);
+    ~CMyString(void);
+    CMyString & operator=(const CMyString &str);
+private:
+    char *m_pData;
+};
+
+CMyString & CMyString::operator=(const CMyString &str){
+    if(this != &str){
+        CMyString temp(str);
+
+        char *p_temp = temp.m_pData;
+        temp.m_pData = m_pData;
+        m_pData = p_temp;
+    }
+
+    return *this;
+}
