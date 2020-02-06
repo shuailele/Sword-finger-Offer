@@ -1,0 +1,42 @@
+//面试题6
+
+//输入一个链表的头节点，从尾到头反过来打印出每个节点的值。
+//链表节点定义如下：
+//    struct ListNode{
+//        int m_nKey;
+//        ListNode *m_pNext;
+//    };
+
+#include "iostream"
+#include "stack"
+using namespace std;
+
+struct ListNode{
+    int m_nKey;
+    ListNode *m_pNext;
+};
+
+//栈的写法
+void PrintListReversingly_Iteratively(ListNode *pHead){
+    std::stack<ListNode *> nodes;
+    ListNode *temp = pHead;
+    while(temp != nullptr){
+        nodes.push(temp);
+        temp = temp->m_pNext;
+    }
+    
+    while(!nodes.empty()){
+        temp = nodes.top();
+        cout<<temp->m_nKey<<' ';
+        nodes.pop();
+    }
+}
+
+//递归写法
+void PrintReversingly_Recursively(ListNode *pHead){
+    if(pHead == nullptr)
+        return;
+    
+    PrintReversingly_Recursively(pHead->m_pNext);
+    cout<<pHead->m_nKey<<' ';
+}
