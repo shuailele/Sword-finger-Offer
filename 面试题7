@@ -48,7 +48,7 @@ BinaryTreeNode *ConstructCore(int *startPreoreder, int *endPreorder, int *startI
         exit(1);
     }
 
-    int leftLength = rootInorder - startInorder + 1;
+    int leftLength = rootInorder - startInorder;
     int *leftPreorderEnd = startPreoreder + leftLength;
     
     if(leftLength >= 0){
