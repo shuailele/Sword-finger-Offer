@@ -1,0 +1,60 @@
+//面试题7
+
+//输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。
+
+#include <iostream>
+
+//二叉树节点的定义如下：
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode *m_pLeft;
+    BinaryTreeNode *m_pRight;
+};
+
+BinaryTreeNode *ConstructCore(int *startPreoreder, int *endPreorder, int *startInorder, int *endInorder);
+
+BinaryTreeNode *Construct(int *preorder, int *inorder, int length){
+    if(preorder == nullptr || inorder == nullptr || length <= 0)
+        return nullptr;
+
+    return ConstructCore(preorder, preorder + length - 1, inorder, inorder + length - 1);
+}
+
+BinaryTreeNode *ConstructCore(int *startPreoreder, int *endPreorder, int *startInorder, int *endInorder){
+    int rootValue = startPreoreder[0];
+    BinaryTreeNode *root = new BinaryTreeNode;
+    root->m_nValue = rootValue;
+    root->m_pLeft = root->m_pRight = nullptr;
+
+    if(startPreoreder == endPreorder){
+        if(startInorder == endInorder && *startPreoreder == *startInorder){
+            return root;
+        }
+        else{
+            std::cout<<"输入错误"<<std::endl;
+            exit(1);
+        }
+    }
+
+    int *rootInorder = startInorder;
+    while(rootInorder <= endInorder){
+        if(*rootInorder == rootValue)
+            break;
+        ++rootInorder;
+    }
+    
+    if(rootInorder == endInorder && *rootInorder != rootValue){
+        std::cout<<"没有找到该值"<<std::endl;
+        exit(1);
+    }
+
+    int leftLength = rootInorder - startInorder + 1;
+    int *leftPreorderEnd = startPreoreder + leftLength;
+    
+    if(leftLength >= 0){
+        root->m_pLeft = ConstructCore(startPreoreder + 1, leftPreorderEnd, startInorder, rootInorder - 1);
+    }
+    if(endInorder - startInorder + 1 - leftLength >= 0){
+        root->m_pRight = ConstructCore(leftPreorderEnd + 1, endPreorder, rootInorder + 1, endInorder);
+    }
+}
