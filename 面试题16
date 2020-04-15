@@ -1,0 +1,29 @@
+//面试题16：数值的整数次方
+
+//题目：实现函数double Power(double base, int exponent)，
+//求base的exponent次方。不得使用库函数，同时不需要考虑大数问题
+
+#include "cmath";
+
+double Calculation(double base, unsigned int exponent){
+    double result = 1;
+    for(int i = 1 ; i <= exponent ; ++i){
+        result *= base;
+    }
+    return result;
+}
+
+double Power(double base, int exponent){
+    if(base == 0)
+        return 0;
+    if(exponent == 0)
+        return 1;
+    if(exponent == 1)
+        return base;
+
+    unsigned int absExponent = abs(exponent);
+    double result = Calculation(base, absExponent);
+    if(exponent < 0)
+        return 1 / result;
+    return result;
+}
