@@ -1,0 +1,54 @@
+// 面试题17：打印1到最大的n位数
+
+// 题目：输入数字n，按顺序打印出从1到最大的n位十进制数。
+// 比如输入3，则打印出1、2、3一直到最大的3位数999。
+
+#include "iostream"
+using namespace std;
+
+void printNum(char *num, int length) {
+    bool first = true;
+
+    for(int i = 0 ; i < length ; ++i) {
+        if(first && num[i] != '0') {
+            first = false;
+        }
+
+        if(!first) {
+            cout<<num[i];
+        }
+    }
+    cout<<endl;
+}
+
+void printToMaxOfDigitsRecursively(char *num, int index, int length) {
+    if(index == length - 1) {
+        printNum(num, length);
+        return;
+    }
+
+    for(int i = 0 ; i < 10 ; ++i) {
+        num[index + 1] = '0' + i;
+        printToMaxOfDigitsRecursively(num, index + 1, length);
+    }
+}
+
+void printToMaxOfDigits(int n) {
+    if(n <= 0)
+        return;
+
+    char *num = new char[n + 1];
+    num[n] = '\0';
+
+    for(int i = 0 ; i < 10 ; ++i) {
+        num[0] = '0' + i;
+        printToMaxOfDigitsRecursively(num, 0, n);
+    }
+
+    delete[] num;
+}
+
+int main() {
+    printToMaxOfDigits(2);
+    return 0;
+}
